@@ -1,0 +1,11 @@
+# Firebase Admin SDK
+firebase-admin>=6.2.0
+
+# JSON işlemleri ve dosya yönetimi (Python built-in)
+# pathlib (Python 3.4+)
+# json (Python built-in)
+# os (Python built-in)
+# sys (Python built-in)
+
+# Typing desteği (Python 3.5+)
+# typing (Python 3.5+)
