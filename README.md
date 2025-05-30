@@ -27,15 +27,75 @@
 - **Başarısız Token Raporu**: Başarısız token'ların detaylı analizi
 - **Kritik Hata Kayıtları**: Sistem seviyesi hataların kaydı
 
+## 📜 Script Dosyaları
+
+### 🛠️ setup.sh - Otomatik Kurulum Script'i
+
+Projeyi sıfırdan kurmak ve çalıştırmaya hazır hale getirmek için kullanılan kapsamlı kurulum script'i.
+
+#### Özellikler:
+- **Python Kontrolü**: Python 3.7+ varlığını kontrol eder
+- **Virtual Environment**: Otomatik venv oluşturur ve aktifleştirir
+- **Paket Yönetimi**: requirements.txt oluşturur ve bağımlılıkları yükler
+- **Klasör Yapısı**: Gerekli klasörleri (firebase_keys, logs) oluşturur
+- **Git Yapılandırması**: .gitignore dosyası oluşturur
+- **Script Hazırlığı**: run.sh dosyasını oluşturur ve çalıştırılabilir yapar
+- **Dokümantasyon**: README.md dosyasını günceller
+
+#### Kullanım:
+```bash
+chmod +x setup.sh && ./setup.sh
+```
+
+#### Oluşturulan Dosyalar:
+- `venv/` - Virtual environment
+- `requirements.txt` - Python bağımlılıkları
+- `run.sh` - Başlatma script'i
+- `.gitignore` - Git ignore kuralları
+- `firebase_keys/` - Firebase key klasörü
+
+### 🚀 run.sh - Hızlı Başlatma Script'i
+
+Uygulamayı tek komutla başlatmak için kullanılan basit ve etkili script.
+
+#### Özellikler:
+- **Environment Kontrolü**: Virtual environment varlığını kontrol eder
+- **Otomatik Aktifleştirme**: venv'i otomatik aktifleştirir
+- **Hata Yönetimi**: Virtual environment yoksa uyarı verir
+- **Temiz Çıktı**: Kullanıcı dostu bilgi mesajları
+
+#### Kullanım:
+```bash
+chmod +x run.sh && ./run.sh
+```
+
+#### Çalışma Mantığı:
+1. `venv/` klasörünün varlığını kontrol eder
+2. Virtual environment'ı aktifleştirir
+3. `fcm_sender.py` uygulamasını başlatır
+4. Hata durumunda açıklayıcı mesaj verir
+
+### 📋 Script Bağımlılıkları
+
+Her iki script de birbirleriyle uyumlu çalışacak şekilde tasarlanmıştır:
+
+1. **İlk Kurulum**: `setup.sh` çalıştırılır
+2. **Günlük Kullanım**: `run.sh` ile uygulama başlatılır
+3. **Güncelleme**: `setup.sh` tekrar çalıştırılabilir
+
 ## 📂 Dosya Yapısı
 
 ```
 fcm_python/
 ├── fcm_sender.py              # Ana uygulama
+├── setup.sh                   # 🛠️ Otomatik kurulum script'i
+├── run.sh                     # 🚀 Hızlı başlatma script'i
+├── requirements.txt           # Python bağımlılıkları
 ├── device_tokens.json         # Birleşik token ve proje yapısı
 ├── firebase_keys/             # Firebase JSON key dosyaları
 │   ├── proje1-firebase.json
 │   └── proje2-firebase.json
+├── venv/                      # Virtual environment (setup.sh tarafından oluşturulur)
 └── logs/                      # Log dosyaları
     ├── fcm_log_YYYYMMDD.log           # Genel loglar
     ├── failed_tokens_YYYYMMDD.json    # Başarısız token'lar
@@ -45,6 +105,16 @@ fcm_python/
 
 ## 🔧 Kurulum
 
+### Otomatik Kurulum (Önerilen)
+```bash
+# Kurulum script'ini çalıştırılabilir yap
+chmod +x setup.sh
+
+# Otomatik kurulumu başlat
+./setup.sh
+```
+
+### Manuel Kurulum
 1. **Gereksinimler**
 ```bash
 pip install firebase-admin
@@ -55,7 +125,22 @@ pip install firebase-admin
    - JSON dosyalarını `firebase_keys/` klasörüne koyun
 
 3. **Çalıştırma**
+
+### Hızlı Başlatma (Önerilen)
 ```bash
+# Başlatma script'ini çalıştırılabilir yap
+chmod +x run.sh
+
+# Uygulamayı başlat
+./run.sh
+```
+
+### Manuel Başlatma
+```bash
+# Virtual environment'ı aktifleştir
+source venv/bin/activate
+
+# Uygulamayı çalıştır
 python fcm_sender.py
 ```
 
@@ -166,7 +251,43 @@ if isinstance(data, dict) and "iPhone" in data:
 self._process_detailed_response(response, tokens, project_id, title, body)
 ```
 
-## 🚨 Sorun Giderme
+## �� Sorun Giderme
+
+### Script Sorunları
+
+#### setup.sh Hataları
+1. **Python Bulunamadı**: 
+   ```bash
+   # Python 3.7+ yükleyin
+   brew install python3  # macOS
+   sudo apt install python3  # Ubuntu/Debian
+   ```
+
+2. **Permission Denied**:
+   ```bash
+   chmod +x setup.sh
+   ```
+
+3. **Virtual Environment Hatası**:
+   ```bash
+   # Mevcut venv'i silin ve tekrar deneyin
+   rm -rf venv
+   ./setup.sh
+   ```
+
+#### run.sh Hataları
+1. **Virtual Environment Bulunamadı**:
+   ```bash
+   # setup.sh'yi önce çalıştırın
+   ./setup.sh
+   ```
+
+2. **Python Modül Hatası**:
+   ```bash
+   # Bağımlılıkları yeniden yükleyin
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
 ### Firebase Bağlantı Hataları
 1. JSON key dosyalarının doğru klasörde olduğunu kontrol edin
